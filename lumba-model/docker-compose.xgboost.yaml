@@ -1,0 +1,9 @@
+version: "3"
+services:
+    lumba-model-xgboost:
+        restart: always
+        build:
+            context: .
+            dockerfile: worker-xgboost.Dockerfile
+        container_name: lumba-model
+        env_file: ".env"

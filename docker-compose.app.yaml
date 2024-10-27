@@ -1,0 +1,45 @@
+version: "3"
+services:
+    lumba-api:
+        restart: always
+        build:
+            context: ./lumba-be
+            dockerfile: Dockerfile
+        container_name: lumba-api
+        env_file: "./lumba-be/.env"
+        ports:
+            - "8000:8000"
+        networks:
+            - app_network
+
+    lumba-fe:
+        restart: always
+        build:
+            context: ./lumba-fe
+            dockerfile: Dockerfile
+        container_name: lumba-fe
+        env_file: "./lumba-fe/.env"
+        ports:
+            - "3000:3000"
+        networks:
+            - app_network
+
+    lumba-model:
+        restart: always
+        build:
+            context: ./lumba-model
+            dockerfile: worker.Dockerfile
+        container_name: lumba-model
+        env_file: "./lumba-model/.env"
+
+    lumba-model-xgboost:
+        restart: always
+        build:
+            context: ./lumba-model
+            dockerfile: worker-xgboost.Dockerfile
+        container_name: lumba-model
+        env_file: "./lumba-model/.env"
+
+networks:
+    app_network:
+        driver: bridge

@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+    minio:
+        image: minio/minio:latest
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        environment:
+            MINIO_ROOT_USER: minioadmin
+            MINIO_ROOT_PASSWORD: minioadmin
+        volumes:
+            - type: volume
+              source: minio_data
+              target: /data
+        command: server /data --console-address ":9001"
+        healthcheck:
+            test:
+                ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+            interval: 30s
+            timeout: 20s
+            retries: 3
+        networks:
+            - app_network
+
+    redis:
+        image: redis:7-alpine
+        ports:
+            - "6379:6379"
+        command: redis-server --requirepass redispassword
+        volumes:
+            - type: volume
+              source: redis_data
+              target: /data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+        networks:
+            - app_network
+
+    postgres:
+        image: postgres:15-alpine
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgrespassword
+            POSTGRES_DB: lumba-db
+        volumes:
+            - type: volume
+              source: postgres_data
+              target: /var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        networks:
+            - app_network
+
+volumes:
+    minio_data:
+        name: minio_data
+        driver: local
+    redis_data:
+        name: redis_data
+        driver: local
+    postgres_data:
+        name: postgres_data
+        driver: local
+
+networks:
+    app_network:
+        driver: bridge

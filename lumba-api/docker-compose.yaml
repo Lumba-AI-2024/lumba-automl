@@ -1,0 +1,11 @@
+version: "3"
+services:
+    lumba-api:
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: lumba-api
+        env_file: ".env"
+        ports:
+            - "8000:8000"

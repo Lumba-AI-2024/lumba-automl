@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+    redis:
+        image: redis:7-alpine
+        ports:
+            - "6379:6379"
+        command: redis-server --requirepass redispassword
+        volumes:
+            - type: volume
+              source: redis_data
+              target: /data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+        networks:
+            - app_network
+
+    postgres:
+        image: postgres:15-alpine
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgrespassword
+            POSTGRES_DB: lumba-db
+        volumes:
+            - type: volume
+              source: postgres_data
+              target: /var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+        networks:
+            - app_network
+
+volumes:
+    redis_data:
+        name: redis_data
+        driver: local
+    postgres_data:
+        name: postgres_data
+        driver: local
+
+networks:
+    app_network:
+        driver: bridge
