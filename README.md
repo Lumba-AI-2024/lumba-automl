@@ -1,5 +1,8 @@
 # QUICK INSTALLATION GUIDE
 
+> [!WARNING]  
+> .env files are pushed into the repository as examples. Do not forget to add `.env` to the `.gitignore` files! Make sure you do not push any critical information publicly.
+
 ## 1. Prepare the infrastructure stacks
 
 ```bash
@@ -22,3 +25,5 @@ docker compose -f .\docker-compose.infra.yaml up -d
 ```bash
 docker compose -f .\docker-compose.app.yaml up -d
 ```
+
+---
