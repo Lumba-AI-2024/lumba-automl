@@ -1,4 +1,22 @@
-# QUICK INSTALLATION GUIDE
+# Lumba.ai AutoML
+
+Our own (fullstack) AutoML implementation for Lumba.ai. Made with Django + React. Permalink: [https://github.com/Lumba-AI-2024/lumba-automl](https://github.com/Lumba-AI-2024/lumba-automl)
+
+Stacks:
+- Django + DRF + DjangoRQ
+- React
+- Redis
+- MinIO (AWS S3 compatible)
+- PostgreSQL
+
+## Authors
+- [Adella Rakha](https://github.com/adellara)
+- [Gregorius Bhisma](https://github.com/gbhisma)
+- [M. Bryan Mahdavikhia](https://github.com/bryanmahdavikhia)
+  
+Faculty of Computer Science, Universitas Indonesia
+
+## QUICK INSTALLATION GUIDE
 
 > [!WARNING]  
 > .env files are pushed into the repository as examples. Do not forget to add `.env` to the `.gitignore` files! Make sure you do not push any critical information publicly.
